@@ -1,14 +1,14 @@
 # The name of your plugin as displayed in the Traefik Pilot web UI.
-displayName: X-Real-IP Overwrite
+displayName: Cloudflare Connecting IP Restore
 
 # For now, `middleware` is the only type available.
 type: middleware
 
 # The import path of your plugin.
-import: github.com/pvalletbo/traefik-forwarded-real-ip
+import: github.com/scartzz/traefik-cloudflare-restoring-ip
 
 # A brief description of what your plugin is doing.
-summary: When traefik is deployed behind a load balancer, it should get the real IP from the x-forwarded-for header. 
+summary: When traefik is deployed behind the cloudflare proxy, it should get the real IP from the cf-connecting-ip header. 
 
 # Configuration data for your plugin.
 # This is mandatory,
