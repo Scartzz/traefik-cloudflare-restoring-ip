@@ -1,3 +1,3 @@
-module github.com/pvalletbo/traefik-forwarded-real-ip
+module github.com/scartzz/traefik-cloudflare-restoring-ip
 
 go 1.15
