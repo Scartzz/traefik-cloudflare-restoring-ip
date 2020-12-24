@@ -1,4 +1,4 @@
-package traefik_forwarded_real_ip
+package traefik_cloudflare_restoring_ip
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 )
 
 const (
+	cfConnectingIp = "Cf-Connecting-Ip"
 	xForwardedFor = "X-Forwarded-For"
 	xRealIP       = "X-Real-Ip"
 )
@@ -51,20 +52,10 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (r *RealIPOverWriter) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	forwardedIPs := strings.Split(req.Header.Get(xForwardedFor), ",")
+	connectingIP := req.Header.Get(cfConnectingIp)
 
-	// TODO - Implement a max for the iterations
-	var realIP string
-	for i := len(forwardedIPs) - 1; i >= 0; i-- {
-		// TODO - Check if TrimSpace is necessary
-		trimmedIP := strings.TrimSpace(forwardedIPs[i])
-		if !r.excludedIP(trimmedIP) {
-			realIP = trimmedIP
-			break
-		}
-	}
-
-	req.Header.Set(xRealIP, realIP)
+	req.Header.Set(xForwardedFor, connectingIP)
+	req.Header.Set(xRealIP, connectingIP)
 
 	r.next.ServeHTTP(rw, req)
 }
